@@ -1,6 +1,6 @@
 #include "GL\glut.h"
 
-void RenderScene()
+void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(1.0, 1.0, 0.0);

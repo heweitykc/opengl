@@ -1,5 +1,5 @@
 echo off
-cl main.c /I ../libs/glut/include /MTd /TC /link ../libs/glut/lib/glut.lib ../libs/glut/lib/glut32.lib
+cl main.c /I ../libs/glut/include /link ../libs/glut/lib/glut32.lib
 @if ERRORLEVEL == 0 (
    goto good
 )
