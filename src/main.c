@@ -29,9 +29,6 @@ void vertexRender()
 		5,6,7,	4,5,7
 	};
 	
-	xangle+=0.1;
-	glRotatef(xangle,0,0,0);
-	
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -41,12 +38,15 @@ void vertexRender()
 	glDrawElements(GL_TRIANGLES, sizeof(index0), GL_UNSIGNED_BYTE, index0);
 }
 
-void render(void)
+void display(void)
 {
 	int i;
 	float center=0.5;
 	
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	xangle+=2.0;
+	glRotatef(xangle,0,0,0);
+	
 	glLineWidth(1);
 
 	//»­¾ØÐÎ
@@ -69,8 +69,9 @@ void render(void)
 
 	//¶¥µã»æÖÆ
 	vertexRender();
-	
+	printf("loop\n");
 	glFlush();
+
 }
 
 void setup()
@@ -81,12 +82,13 @@ void setup()
 	glOrtho(-10.0, 10.0, -10.0, 10.0, -111.0, 111.0);
 }
 
-void main()
+int main()
 {
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	glutCreateWindow("Simple");
 	glutPositionWindow(100,100);
-	glutDisplayFunc(render);
+	glutDisplayFunc(display);
 	setup();
 	glutMainLoop();
+	return 0;
 }
