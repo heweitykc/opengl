@@ -61,7 +61,6 @@ update_frame(HDC hDC) {
 	//ejoy2d_win_frame();
 	glRender();
 	SwapBuffers(hDC);
-
 }
 
 static void
