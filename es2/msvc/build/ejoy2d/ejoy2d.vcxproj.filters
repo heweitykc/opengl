@@ -18,6 +18,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="game">
+      <UniqueIdentifier>{7df3ab66-462a-4a94-a20e-0ca9fcead3a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\mingw\window.c">
@@ -82,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\ejoy2d\winmain.c">
       <Filter>mingw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\examples\demo1.c">
+      <Filter>game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\lib\array.h">
       <Filter>lib\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\examples\demo1.h">
+      <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

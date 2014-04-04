@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\examples\demo1.c" />
     <ClCompile Include="..\..\..\lib\dfont.c" />
     <ClCompile Include="..\..\..\lib\ejoy2dgame.c" />
     <ClCompile Include="..\..\..\lib\fault.c" />
@@ -34,6 +35,7 @@
     <ClCompile Include="..\..\src\ejoy2d\winmain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\examples\demo1.h" />
     <ClInclude Include="..\..\..\lib\array.h" />
     <ClInclude Include="..\..\..\lib\dfont.h" />
     <ClInclude Include="..\..\..\lib\ejoy2dgame.h" />
@@ -113,7 +115,7 @@
       <PreprocessorDefinitions>LUA_BUILD_AS_DLL;WIN32;EJOY2D_LUA=$(EJOY2D_LUA);EJOY2D_OS=WINDOWS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <CompileAs>CompileAsCpp</CompileAs>
       <DisableSpecificWarnings>4996;4244;4018</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(EJOY2D_GLEW);$(EJOY2D)\include\;$(EJOY2D_ROOT)\lib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(EJOY2D_GLEW);$(EJOY2D)\include\;$(EJOY2D_ROOT)\lib\;$(EJOY2D_ROOT)\examples\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

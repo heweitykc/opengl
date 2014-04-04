@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "winfw.h"
+#include "demo1.h"
 
 #define CLASSNAME L"EJOY"
 #define WINDOWNAME L"EJOY"
@@ -50,15 +51,15 @@ init_window(HWND hWnd) {
 		exit(1);
 	}
 
-	glViewport(0, 0, WIDTH, HEIGHT);
-	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+	glInit(WIDTH, HEIGHT);
 
 	ReleaseDC(hWnd, hDC);
 }
 
 static void
 update_frame(HDC hDC) {
-	ejoy2d_win_frame();
+	//ejoy2d_win_frame();
+	glRender();
 	SwapBuffers(hDC);
 
 }
@@ -87,7 +88,7 @@ WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	case WM_TIMER : {
-		ejoy2d_win_update();
+		//ejoy2d_win_update();
 		InvalidateRect(hWnd, NULL , FALSE);
 		break;
 	}
@@ -97,19 +98,19 @@ WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONUP: {
 		int x,y;
 		get_xy(lParam, &x, &y); 
-		ejoy2d_win_touch(x,y,TOUCH_END);
+		//ejoy2d_win_touch(x,y,TOUCH_END);
 		break;
 	}
 	case WM_LBUTTONDOWN: {
 		int x,y;
 		get_xy(lParam, &x, &y); 
-		ejoy2d_win_touch(x,y,TOUCH_BEGIN);
+		//ejoy2d_win_touch(x,y,TOUCH_BEGIN);
 		break;
 	}
 	case WM_MOUSEMOVE: {
 		int x,y;
 		get_xy(lParam, &x, &y); 
-		ejoy2d_win_touch(x,y,TOUCH_MOVE);
+		//ejoy2d_win_touch(x,y,TOUCH_MOVE);
 		break;
 	}
 	}
@@ -160,7 +161,7 @@ int
 main(int argc, char *argv[]) {
 	register_class();
 	HWND wnd = create_window(WIDTH,HEIGHT);
-	ejoy2d_win_init(argc, argv);
+	//ejoy2d_win_init(argc, argv);
 
 	ShowWindow(wnd, SW_SHOWDEFAULT);
 	UpdateWindow(wnd);
