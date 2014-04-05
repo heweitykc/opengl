@@ -34,12 +34,12 @@ public class HelloJni extends Activity
     {
         super.onCreate(savedInstanceState);
         
-        String msg = stringFromJNI();
-        Log.d("", msg);
+        //String msg = stringFromJNI();
+        //Log.d("", msg);
         
         mGLView = new GLSurfaceView(this);
         mGLView.setEGLContextClientVersion(2);
-        mGLView.setEGLConfigChooser(8,8,8,8,16,0);
+        mGLView.setEGLConfigChooser(8,8,8,0,0,0);
          
         mGLView.setRenderer(new DemoRenderer());
         setContentView(mGLView);
@@ -75,6 +75,8 @@ class DemoRenderer implements GLSurfaceView.Renderer{
     private static native void nativeDone();
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+    	gl.glClearColor(1, 1, 1, 1);
+    	gl.glClear(0);
         nativeInit();
     }
 

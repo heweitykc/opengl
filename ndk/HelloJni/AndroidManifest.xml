@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.example.hellojni"
       android:versionCode="1"
-      android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="16" />
+      android:versionName="hellojni">
+    <uses-sdk android:minSdkVersion="16"/>
     <application android:label="@string/app_name"
                  android:debuggable="true">
         <activity android:name=".HelloJni"
@@ -14,4 +14,5 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-feature android:glEsVersion="0x00020000"/>
 </manifest> 

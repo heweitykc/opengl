@@ -1,11 +1,12 @@
 #include "demo1.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <android/log.h>
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 #define VERTEX_POS_INDEX 0
 #define VERTEX_POS_SIZE 6
-#define LOG(format, ...) printf(format, __VA_ARGS__)
+#define LOG(format, ...) __android_log_print(ANDROID_LOG_INFO, "JNIMsg", format, __VA_ARGS__);
 
 extern char VSRC_0[];
 extern char FSRC_0[];
@@ -73,7 +74,7 @@ static void draw()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLubyte)*3, idxs, GL_STATIC_DRAW);
 	
 	glVertexAttribPointer(VERTEX_POS_INDEX, 3,   GL_FLOAT, GL_FALSE, sizeof(GLfloat)*6, BUFFER_OFFSET(0));
-	glVertexAttribPointer(VERTEX_POS_INDEX+1, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*6, BUFFER_OFFSET(12));
+	glVertexAttribPointer(VERTEX_POS_INDEX+1, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*6, BUFFER_OFFSET(sizeof(GLfloat)*3));
 	glEnableVertexAttribArray(VERTEX_POS_INDEX);
 	glEnableVertexAttribArray(VERTEX_POS_INDEX+1);
 
