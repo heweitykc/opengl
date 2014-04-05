@@ -89,6 +89,9 @@
     <ClCompile Include="..\..\..\examples\demo1.c">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\examples\shadersrc.c">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdbool.h">
