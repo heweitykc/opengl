@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\examples\demo1.c" />
+    <ClCompile Include="..\..\..\examples\fileio.cpp" />
     <ClCompile Include="..\..\..\examples\shadersrc.c" />
     <ClCompile Include="..\..\..\lib\dfont.c" />
     <ClCompile Include="..\..\..\lib\ejoy2dgame.c" />
@@ -37,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\examples\demo1.h" />
+    <ClInclude Include="..\..\..\examples\fileio.h" />
     <ClInclude Include="..\..\..\lib\array.h" />
     <ClInclude Include="..\..\..\lib\dfont.h" />
     <ClInclude Include="..\..\..\lib\ejoy2dgame.h" />

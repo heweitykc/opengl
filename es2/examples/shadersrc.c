@@ -1,18 +1,20 @@
 #include "opengl.h"
 
 char VSRC_0[] =
-		"precision highp float;"
+//		"precision highp float;"		//needed by es2
 		"attribute vec4 position; "
 		"attribute vec4 color; "
+		"uniform vec2 offset; "
 		"varying vec4 fcolor; "
 		"void main()"
 		"{"
 		"	fcolor = color;"
-		"	gl_Position = position;"
+		"	vec4 totaloffset = vec4(offset.x,offset.y,0,0);"
+		"	gl_Position = position + totaloffset;"
 		"}";
 
 char FSRC_0[] =
-		"precision highp float;"
+//		"precision highp float;"		//needed by es2
 		"varying vec4 fcolor;"
 		"void main()"
 		"{"

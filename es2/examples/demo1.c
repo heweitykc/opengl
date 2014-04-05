@@ -13,10 +13,15 @@ extern GLfloat vtxs[];
 extern GLubyte idxs[];
 
 static char buf[1024];
+static GLuint prog;
+static float fXOffset=0, fYOffset=0;
+static Loader loader;
 
-GLfloat _xAngle = 0.0f;
-GLfloat _yAngle = 0.0f;
-GLuint prog;
+static void fileTest()
+{
+	loader.load("Monster32\\Monster32.smd");
+	LOG("file=%s\n",loader.getbuff());
+}
 
 static GLuint compile(const char * source, int type) {
 	GLint len;
@@ -58,11 +63,14 @@ static void draw()
 {
 	GLuint vertex_buffer;
 	GLuint index_buffer;
-	GLint additive;
+	GLint offsetLocation;
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glEnable(GL_BLEND);
 	glUseProgram(prog);
+
+	offsetLocation = glGetUniformLocation(prog, "offset");
+	glUniform2f(offsetLocation, fXOffset, fYOffset);
 
 	glGenBuffers(1, &vertex_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
@@ -90,9 +98,13 @@ void glInit(GLsizei width, GLsizei height)
 	glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
 
 	buildShader();
+
+	fileTest();
 }
 
 void glRender()
 {
+	fXOffset += 0.001;
+	fYOffset += 0.001;
 	draw();
 }
