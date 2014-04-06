@@ -20,6 +20,9 @@ static Loader loader;
 static DWORD current0;
 static DWORD current1;
 
+static float width;
+static float height;
+
 static void fileTest()
 {
 	loader.load("Monster32\\drr_01.jpg");
@@ -81,17 +84,28 @@ static void uploadData()
 
 static void draw()
 {
-	GLint durationLocation;
-	GLint timeLocation;
+	GLint offsetUnif, perspectiveMatrixUnif;
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glEnable(GL_BLEND);
 	glUseProgram(prog);
 
-	durationLocation = glGetUniformLocation(prog, "loopDuration");
-	timeLocation = glGetUniformLocation(prog, "time");
-	glUniform1f(durationLocation, 5.0f);
-	glUniform1f(timeLocation, current0/300);
+	float fFrustumScale = 1.0f;
+	float fzNear = 0.5f;
+	float fzFar = 3.0f;
+	float theMatrix[16];
+	memset(theMatrix, 0, sizeof(float)*16);
+
+	theMatrix[0] = fFrustumScale/(width/height);
+	theMatrix[5] = fFrustumScale;
+	theMatrix[10] = (fzFar+fzNear)/(fzNear-fzFar);
+	theMatrix[14] = (2*fzFar*fzNear)/(fzNear-fzFar);
+	theMatrix[11] = -1.0f;
+
+	offsetUnif = glGetUniformLocation(prog, "offset");
+	perspectiveMatrixUnif = glGetUniformLocation(prog, "perspectiveMatrix");
+	glUniform2f(offsetUnif, 0.0f, 0.0f);
+	glUniformMatrix4fv(perspectiveMatrixUnif, 1, GL_FALSE, theMatrix);
 
 	glEnableVertexAttribArray(VERTEX_POS_INDEX);
 	glEnableVertexAttribArray(VERTEX_POS_INDEX+1);
@@ -103,9 +117,11 @@ static void draw()
 	glDisableVertexAttribArray(VERTEX_POS_INDEX+1);
 }
 
-void glInit(GLsizei width, GLsizei height)
+void glInit(GLsizei w, GLsizei h)
 {
-	glViewport(0, 0, width, height);
+	width = (float)w;
+	height = (float)h;
+	glViewport(0, 0, w, h);
 	glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
 
 	buildShader();
