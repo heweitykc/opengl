@@ -4,13 +4,18 @@ char VSRC_0[] =
 //		"precision highp float;"		//needed by es2
 		"attribute vec4 position; "
 		"attribute vec4 color; "
-		"uniform vec2 offset; "
+		"uniform float loopDuration; "
+		"uniform float time; "
 		"varying vec4 fcolor; "
 		"void main()"
 		"{"
 		"	fcolor = color;"
-		"	vec4 totaloffset = vec4(offset.x,offset.y,0,0);"
-		"	gl_Position = position + totaloffset;"
+		"	float timeScale = 3.14159f * 2.0f / loopDuration;"
+		"	float currTime = mod(time, loopDuration);"
+		"	vec4 totalOffset = vec4(0.0f, 0.0f, 0.0f, 0.0f);"
+		"	totalOffset.x = cos(currTime * timeScale) * 0.6f;"
+		"	totalOffset.y = sin(currTime * timeScale) * 0.6f;"
+		"	gl_Position = position + totalOffset;"
 		"}";
 
 char FSRC_0[] =

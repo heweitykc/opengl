@@ -1,6 +1,7 @@
 #include "demo1.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 #define VERTEX_POS_INDEX 0
@@ -14,13 +15,15 @@ extern GLubyte idxs[];
 
 static char buf[1024];
 static GLuint prog;
-static float fXOffset=0, fYOffset=0;
 static Loader loader;
+
+static DWORD current0;
+static DWORD current1;
 
 static void fileTest()
 {
-	loader.load("Monster32\\Monster32.smd");
-	LOG("file=%s\n",loader.getbuff());
+	loader.load("Monster32\\drr_01.jpg");
+	//LOG("file=%s\n",loader.getbuff());
 }
 
 static GLuint compile(const char * source, int type) {
@@ -59,18 +62,10 @@ static void buildShader()
 	LOG("link=%s", buf);
 }
 
-static void draw()
+static void uploadData()
 {
 	GLuint vertex_buffer;
 	GLuint index_buffer;
-	GLint offsetLocation;
-
-	glClear(GL_COLOR_BUFFER_BIT);
-	glEnable(GL_BLEND);
-	glUseProgram(prog);
-
-	offsetLocation = glGetUniformLocation(prog, "offset");
-	glUniform2f(offsetLocation, fXOffset, fYOffset);
 
 	glGenBuffers(1, &vertex_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
@@ -82,6 +77,22 @@ static void draw()
 	
 	glVertexAttribPointer(VERTEX_POS_INDEX, 3,   GL_FLOAT, GL_FALSE, sizeof(GLfloat)*6, BUFFER_OFFSET(0));
 	glVertexAttribPointer(VERTEX_POS_INDEX+1, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*6, BUFFER_OFFSET(12));
+}
+
+static void draw()
+{
+	GLint durationLocation;
+	GLint timeLocation;
+
+	glClear(GL_COLOR_BUFFER_BIT);
+	glEnable(GL_BLEND);
+	glUseProgram(prog);
+
+	durationLocation = glGetUniformLocation(prog, "loopDuration");
+	timeLocation = glGetUniformLocation(prog, "time");
+	glUniform1f(durationLocation, 5.0f);
+	glUniform1f(timeLocation, current0/300);
+
 	glEnableVertexAttribArray(VERTEX_POS_INDEX);
 	glEnableVertexAttribArray(VERTEX_POS_INDEX+1);
 
@@ -98,13 +109,17 @@ void glInit(GLsizei width, GLsizei height)
 	glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
 
 	buildShader();
+	uploadData();
 
 	fileTest();
 }
 
 void glRender()
 {
-	fXOffset += 0.001;
-	fYOffset += 0.001;
+	current1 = TIME;
+	int diff = current1 - current0;
+	//LOG("frame time=%d\n", diff);
+	current0 = current1;
+
 	draw();
 }

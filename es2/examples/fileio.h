@@ -7,6 +7,8 @@
 class Loader
 {
 public:
+	Loader();
+	~Loader();
 	void load(const char *fname);
 	char* getbuff();
 	void clear();
