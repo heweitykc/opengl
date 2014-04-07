@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "winfw.h"
-#include "demo1.h"
+#include "demo2.h"
 
 #define CLASSNAME L"EJOY"
 #define WINDOWNAME L"EJOY"
@@ -51,7 +51,7 @@ init_window(HWND hWnd) {
 		exit(1);
 	}
 
-	glInit(WIDTH, HEIGHT);
+	glInit2(WIDTH, HEIGHT);
 
 	ReleaseDC(hWnd, hDC);
 }
@@ -59,7 +59,7 @@ init_window(HWND hWnd) {
 static void
 update_frame(HDC hDC) {
 	//ejoy2d_win_frame();
-	glRender();
+	glRender2();
 	SwapBuffers(hDC);
 }
 

@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\examples\demo1.c" />
+    <ClCompile Include="..\..\..\examples\demo2.c" />
     <ClCompile Include="..\..\..\examples\fileio.cpp" />
     <ClCompile Include="..\..\..\examples\shadersrc.c" />
     <ClCompile Include="..\..\..\lib\dfont.c" />
@@ -38,7 +39,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\examples\demo1.h" />
+    <ClInclude Include="..\..\..\examples\demo2.h" />
     <ClInclude Include="..\..\..\examples\fileio.h" />
+    <ClInclude Include="..\..\..\examples\shadersrc.h" />
+    <ClInclude Include="..\..\..\examples\submesh.h" />
     <ClInclude Include="..\..\..\lib\array.h" />
     <ClInclude Include="..\..\..\lib\dfont.h" />
     <ClInclude Include="..\..\..\lib\ejoy2dgame.h" />
@@ -62,6 +66,7 @@
     <ClInclude Include="..\..\include\lualib.h" />
     <ClInclude Include="..\..\include\lua_path.h" />
     <ClInclude Include="..\..\include\stdbool.h" />
+    <ClInclude Include="gamemain.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\glew\glew.vcxproj">

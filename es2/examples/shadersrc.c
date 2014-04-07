@@ -1,4 +1,7 @@
-#include "opengl.h"
+#include "shadersrc.h"
+#include <stdio.h>
+
+static char buf[1024];
 
 char VSRC_0[] =
 //		"precision highp float;"		//needed by es2
@@ -23,13 +26,38 @@ char FSRC_0[] =
 		"	gl_FragColor = fcolor;"
 		"}";
 
+static GLuint compile(const char * source, int type) {
+	GLint len;
+	GLuint shader = glCreateShader(type);
+	glShaderSource(shader, 1, &source, NULL);
+	glCompileShader(shader);
+	glGetShaderInfoLog(shader, 1024, &len, buf);
+	LOG("complile=%s", buf);
+	return shader;
+}
 
+void buildShader(GLuint *prog,char *vscr, char *fsrc, int vpos0, int vpos1)
+{
+	GLint vs,fs,status;
+	
+	vs = compile(vscr, GL_VERTEX_SHADER);
+	fs = compile(fsrc, GL_FRAGMENT_SHADER);
 
-GLfloat vtxs[] = {
-		0.0f,0.5f,-2.0f,	  1.0f,0.0f,0.0f,
-		-0.5f,-0.5f,-2.0f, 0.0f,1.0f,0.0f,
-		0.5f,-0.5f,-2.0f,  0.0f,0.0f,1.0f
-};
+	*prog = glCreateProgram();
+	glAttachShader(*prog, vs);
+	glAttachShader(*prog, fs);
 
- GLubyte idxs[] = {0, 1, 2};
+	glBindAttribLocation(*prog, vpos0,   "position");
+	glBindAttribLocation(*prog, vpos1, "color");
 
+	glLinkProgram(*prog);
+
+	glDetachShader(*prog, fs);
+	glDeleteShader(fs);
+	glDetachShader(*prog, vs);
+	glDeleteShader(vs);
+
+	glGetProgramiv(*prog, GL_LINK_STATUS, &status);
+	glGetProgramInfoLog(*prog, 1024, NULL, buf);
+	LOG("link=%s", buf);
+}

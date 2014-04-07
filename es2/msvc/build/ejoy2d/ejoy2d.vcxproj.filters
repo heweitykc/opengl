@@ -95,6 +95,9 @@
     <ClCompile Include="..\..\..\examples\fileio.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\examples\demo2.c">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdbool.h">
@@ -166,10 +169,22 @@
     <ClInclude Include="..\..\..\lib\array.h">
       <Filter>lib\inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\examples\fileio.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="gamemain.h">
+      <Filter>game</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\examples\demo1.h">
       <Filter>game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\examples\fileio.h">
+    <ClInclude Include="..\..\..\examples\demo2.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\examples\shadersrc.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\examples\submesh.h">
       <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
