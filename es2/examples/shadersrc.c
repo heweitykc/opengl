@@ -8,13 +8,14 @@ char VSRC_0[] =
 		"attribute vec4 position; "
 		"attribute vec4 color; "
 		"uniform vec2 offset; "
+		"uniform mat4 viewMatrix;"
 		"uniform mat4 perspectiveMatrix;"
 		"varying vec4 fcolor; "
 		"void main()"
 		"{"
 			"vec4 cameraPos = position + vec4(offset.x, offset.y, 0.0, 0.0);"
     
-			"gl_Position = perspectiveMatrix * cameraPos;"
+			"gl_Position =  viewMatrix * perspectiveMatrix * cameraPos;"
 			"fcolor = color;"
 		"}";
 
@@ -36,7 +37,7 @@ static GLuint compile(const char * source, int type) {
 	return shader;
 }
 
-void buildShader(GLuint *prog,char *vscr, char *fsrc, int vpos0, int vpos1)
+void buildShader(GLuint *prog,char *vscr, char *fsrc)
 {
 	GLint vs,fs,status;
 	
@@ -46,9 +47,6 @@ void buildShader(GLuint *prog,char *vscr, char *fsrc, int vpos0, int vpos1)
 	*prog = glCreateProgram();
 	glAttachShader(*prog, vs);
 	glAttachShader(*prog, fs);
-
-	glBindAttribLocation(*prog, vpos0,   "position");
-	glBindAttribLocation(*prog, vpos1, "color");
 
 	glLinkProgram(*prog);
 

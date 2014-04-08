@@ -8,6 +8,6 @@
 char VSRC_0[];
 char FSRC_0[];
 
-void buildShader(GLuint *prog,char *vscr, char *fsrc, int vpos0, int vpos1);
+void buildShader(GLuint *prog,char *vscr, char *fsrc);
 
 #endif

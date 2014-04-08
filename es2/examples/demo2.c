@@ -1,9 +1,11 @@
 #include "demo2.h"
 #include "shadersrc.h"
 #include "submesh.h"
+#include "geomtool.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 #define VERTEX_POS_INDEX 0
@@ -18,16 +20,21 @@ static DWORD current1;
 static float width;
 static float height;
 
-static float fFrustumScale = 1.0f;
+static float fFrustumScale = CalcFrustumScale(45.0f);
 static float fzNear = 0.5f;
-static float fzFar = 3.0f;
-static float theMatrix[16];
+static float fzFar = 13.0f;
+
+static float viewMatrix[16];
+static float projMatrix[16];
+
+static float rotationX=0;
+
 static struct submesh *mesh0=NULL;
 static GLfloat vtxs[] = {
-		-0.5f,0.5f,-2.0f,	  1.0f,0.0f,0.0f,
-		-0.5f,-0.5f,-2.0f,	  0.0f,1.0f,0.0f,
-		0.5f,-0.5f,-2.0f,     0.0f,0.0f,1.0f,
-		0.5f,0.5f,-2.0f,      1.0f,1.0f,1.0f
+		-0.5f,0.5f,0.0f,	  1.0f,0.0f,0.0f,
+		-0.5f,-0.5f,0.0f,	  0.0f,1.0f,0.0f,
+		0.5f,-0.5f,0.0f,     0.0f,0.0f,1.0f,
+		0.5f,0.5f,0.0f,      1.0f,1.0f,1.0f
 };
 static GLubyte idxs[] = {0, 1, 2, 0, 2, 3};
 
@@ -63,24 +70,44 @@ static void uploadData()
 
 static void draw()
 {
-	GLint offsetUnif, perspectiveMatrixUnif;
+	GLint offsetUnif, perspectiveMatrixUnif, viewMatrixUnif;
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glEnable(GL_BLEND);
 	glUseProgram(prog);
 
-	memset(theMatrix, 0, sizeof(float)*16);
+	memset(projMatrix, 0, sizeof(float)*16);
+	memset(viewMatrix, 0, sizeof(float)*16);
 
-	theMatrix[0] = fFrustumScale/(width/height);
-	theMatrix[5] = fFrustumScale;
-	theMatrix[10] = (fzFar+fzNear)/(fzNear-fzFar);
-	theMatrix[14] = (2*fzFar*fzNear)/(fzNear-fzFar);
-	theMatrix[11] = -1.0f;
+	viewMatrix[0] = 1;
+	viewMatrix[5] = 1;
+	viewMatrix[10] = 1;
+	viewMatrix[15] = 1;
+	
+	viewMatrix[5] = cos(rotationX);
+	viewMatrix[6] = -sin(rotationX);
+	viewMatrix[9] = sin(rotationX);
+	viewMatrix[10] = -cos(rotationX);
+
+	//viewMatrix[12] = 0;
+	//viewMatrix[13] = 0;
+	//viewMatrix[14] = -2;
+
+	projMatrix[0] = fFrustumScale/(width/height);
+	projMatrix[5] = fFrustumScale;
+	projMatrix[10] = (fzFar+fzNear)/(fzNear-fzFar);
+	projMatrix[14] = (2*fzFar*fzNear)/(fzNear-fzFar);
+	projMatrix[11] = -1.0f;
+
+	glBindAttribLocation(prog, VERTEX_POS_INDEX, "position");
+	glBindAttribLocation(prog, VERTEX_POS_INDEX+1, "color");
 
 	offsetUnif = glGetUniformLocation(prog, "offset");
 	perspectiveMatrixUnif = glGetUniformLocation(prog, "perspectiveMatrix");
+	viewMatrixUnif = glGetUniformLocation(prog, "viewMatrix");
 	glUniform2f(offsetUnif, 0.0f, 0.0f);
-	glUniformMatrix4fv(perspectiveMatrixUnif, 1, GL_FALSE, theMatrix);
+	glUniformMatrix4fv(perspectiveMatrixUnif, 1, GL_FALSE, projMatrix);
+	glUniformMatrix4fv(viewMatrixUnif, 1, GL_FALSE, viewMatrix);
 
 	glEnableVertexAttribArray(VERTEX_POS_INDEX);
 	glEnableVertexAttribArray(VERTEX_POS_INDEX+1);
@@ -99,7 +126,7 @@ void glInit2(GLsizei w, GLsizei h)
 	glViewport(0, 0, w, h);
 	glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
 
-	buildShader(&prog,VSRC_0,FSRC_0, VERTEX_POS_INDEX, VERTEX_POS_INDEX+1);
+	buildShader(&prog,VSRC_0,FSRC_0);
 	uploadData();
 
 	fileTest();
@@ -109,6 +136,7 @@ void glRender2()
 {
 	current1 = TIME;
 	int diff = current1 - current0;
+	rotationX += 0.01;
 	//LOG("frame time=%d\n", diff);
 	current0 = current1;
 	draw();

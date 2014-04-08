@@ -98,6 +98,9 @@
     <ClCompile Include="..\..\..\examples\demo2.c">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\examples\geomtool.c">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdbool.h">
@@ -185,6 +188,9 @@
       <Filter>game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\examples\submesh.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\examples\geomtool.h">
       <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
