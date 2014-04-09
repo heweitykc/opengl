@@ -106,7 +106,7 @@ static void draw()
 	offsetUnif = glGetUniformLocation(prog, "offset");
 	perspectiveMatrixUnif = glGetUniformLocation(prog, "perspectiveMatrix");
 	viewMatrixUnif = glGetUniformLocation(prog, "viewMatrix");
-	glUniform2f(offsetUnif, 0.0f, 0.0f);
+	glUniform3f(offsetUnif, 0.0f, 0.0f, -2.0f);
 	glUniformMatrix4fv(perspectiveMatrixUnif, 1, GL_FALSE, projMatrix);
 	glUniformMatrix4fv(viewMatrixUnif, 1, GL_FALSE, viewMatrix);
 
@@ -137,7 +137,7 @@ void glRender2()
 {
 	current1 = TIME;
 	int diff = current1 - current0;
-	rotationX += 0.01;
+	rotationX += 0.01f;
 	//LOG("frame time=%d\n", diff);
 	current0 = current1;
 	draw();
