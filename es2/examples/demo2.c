@@ -2,6 +2,7 @@
 #include "shadersrc.h"
 #include "submesh.h"
 #include "geomtool.h"
+#include "Vector3.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

@@ -16,6 +16,7 @@
     <ClCompile Include="..\..\..\examples\fileio.cpp" />
     <ClCompile Include="..\..\..\examples\geomtool.c" />
     <ClCompile Include="..\..\..\examples\shadersrc.c" />
+    <ClCompile Include="..\..\..\examples\Vector3.cpp" />
     <ClCompile Include="..\..\..\lib\dfont.c" />
     <ClCompile Include="..\..\..\lib\ejoy2dgame.c" />
     <ClCompile Include="..\..\..\lib\fault.c" />
@@ -45,6 +46,7 @@
     <ClInclude Include="..\..\..\examples\geomtool.h" />
     <ClInclude Include="..\..\..\examples\shadersrc.h" />
     <ClInclude Include="..\..\..\examples\submesh.h" />
+    <ClInclude Include="..\..\..\examples\Vector3.h" />
     <ClInclude Include="..\..\..\lib\array.h" />
     <ClInclude Include="..\..\..\lib\dfont.h" />
     <ClInclude Include="..\..\..\lib\ejoy2dgame.h" />
