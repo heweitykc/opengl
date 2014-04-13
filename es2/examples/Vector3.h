@@ -1,3 +1,6 @@
+#ifndef Vector3_h
+#define Vector3_h
+
 #include <math.h>
 
 class Vector3{
@@ -36,11 +39,11 @@ public:
 		return Vector3(x-a.x,y-a.y,z-a.z);
 	}
 
-	Vector3 operator *(const float a) const{
+	Vector3 operator *(float a) const{
 		return Vector3(x*a, y*a, z*a);
 	}
 
-	Vector3 operator /(const float a) const{
+	Vector3 operator /(float a) const{
 		float oneOverA = 1.0f/a;
 		return Vector3(x*oneOverA, y*oneOverA, z*oneOverA);
 	}
@@ -76,9 +79,39 @@ public:
 		}
 	}
 
-	float dotProduct(const Vector3 a)
+	float operator *(const Vector3 &a) const
 	{
 		return x*a.x+y*a.y+z*a.z;
 	}
 };
 
+inline float vectorMag(const Vector3 &a)
+{
+	return sqrt(a.x*a.x+a.y*a.y+a.z*a.z);
+}
+
+inline Vector3 crossProduct(const Vector3 &a, const Vector3 &b)
+{
+	return Vector3(
+		a.y*b.z - a.z*b.y,
+		a.z*b.x - a.x*b.z,
+		a.x*b.y - a.y*b.x
+	);
+}
+
+inline Vector3 operator ^(float k, const Vector3 &v)
+{
+	return Vector3(k*v.x, k*v.y, k*v.z);
+}
+
+inline float distance(const Vector3 &a, const Vector3 &b)
+{
+	float dx = a.x - b.x;
+	float dy = a.y - b.y;
+	float dz = a.z - b.z;
+	return sqrt(dx*dx + dy*dy + dz*dz);
+}
+
+extern const Vector3 kZeroVector;
+
+#endif

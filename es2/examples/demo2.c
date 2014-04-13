@@ -3,6 +3,9 @@
 #include "submesh.h"
 #include "geomtool.h"
 #include "Vector3.h"
+#include "camera.h"
+#include "MathUtil.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -21,21 +24,24 @@ static DWORD current1;
 static float width;
 static float height;
 
-static float fFrustumScale = CalcFrustumScale(45.0f);
-static float fzNear = 0.5f;
-static float fzFar = 13.0f;
+static float rotationX = 0.0f;
 
 static float viewMatrix[16];
-static float projMatrix[16];
+static float cameraMatrix[16] = {
+	1.0f,0.0f,0.0f,0.0f,
+	0.0f,1.0f,0.0f,0.0f,
+	0.0f,0.0f,1.0f,0.0f,
+	0.0f,0.0f,0.0f,1.0f
+};
 
-static float rotationX=0;
+static Camera camera(Camera::AIRCRAFT);
 
 static struct submesh *mesh0=NULL;
 static GLfloat vtxs[] = {
-		-0.5f,0.5f,0.0f,	  1.0f,0.0f,0.0f,
-		-0.5f,-0.5f,0.0f,	  0.0f,1.0f,0.0f,
-		0.5f,-0.5f,0.0f,     0.0f,0.0f,1.0f,
-		0.5f,0.5f,0.0f,      1.0f,1.0f,1.0f
+		-0.5f,0.5f,0.0f,   1.0f,0.0f,0.0f,
+		-0.5f,-0.5f,0.0f,  0.0f,1.0f,0.0f,
+		0.5f,-0.5f,0.0f,   0.0f,0.0f,1.0f,
+		0.5f,0.5f,0.0f,    1.0f,1.0f,1.0f
 };
 static GLubyte idxs[] = {0, 1, 2, 0, 2, 3};
 
@@ -45,10 +51,17 @@ static void fileTest()
 	//LOG("file=%s\n",loader.getbuff());
 }
 
-static void uploadData()
+static void initPerspetive()
 {
-	GLuint vbo;
-	GLuint ibo;
+	float aspect = 4.0f/3.0f;
+	float zNear = 0.1f;
+	float zFar = 1000;
+	float fov = 45* kPi/180;
+	camera.perspectiveFieldOfView(fov,aspect,zNear,zFar);
+}
+
+static void initData()
+{
 	mesh0 = (struct submesh*)malloc(sizeof(*mesh0));
 	mesh0->vlen = 24;
 	mesh0->vsize = 6;
@@ -56,6 +69,14 @@ static void uploadData()
 
 	mesh0->ilen = 6;
 	mesh0->idxs = idxs;
+}
+
+static void uploadData()
+{
+	GLuint vbo;
+	GLuint ibo;
+
+	initData();
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -71,13 +92,12 @@ static void uploadData()
 
 static void draw()
 {
-	GLint offsetUnif, perspectiveMatrixUnif, viewMatrixUnif;
+	GLint perspectiveMatrixUnif, viewMatrixUnif, cameraMatrixUnif;
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glEnable(GL_BLEND);
 	glUseProgram(prog);
 
-	memset(projMatrix, 0, sizeof(float)*16);
 	memset(viewMatrix, 0, sizeof(float)*16);
 
 	viewMatrix[0] = 1;
@@ -94,21 +114,16 @@ static void draw()
 	//viewMatrix[13] = 0;
 	//viewMatrix[14] = -2;
 
-	projMatrix[0] = fFrustumScale/(width/height);
-	projMatrix[5] = fFrustumScale;
-	projMatrix[10] = (fzFar+fzNear)/(fzNear-fzFar);
-	projMatrix[14] = (2*fzFar*fzNear)/(fzNear-fzFar);
-	projMatrix[11] = -1.0f;
+	camera.getMatrix(cameraMatrix);
 
 	glBindAttribLocation(prog, VERTEX_POS_INDEX, "position");
 	glBindAttribLocation(prog, VERTEX_POS_INDEX+1, "color");
 
-	offsetUnif = glGetUniformLocation(prog, "offset");
 	perspectiveMatrixUnif = glGetUniformLocation(prog, "perspectiveMatrix");
 	viewMatrixUnif = glGetUniformLocation(prog, "viewMatrix");
-	glUniform3f(offsetUnif, 0.0f, 0.0f, -2.0f);
-	glUniformMatrix4fv(perspectiveMatrixUnif, 1, GL_FALSE, projMatrix);
-	glUniformMatrix4fv(viewMatrixUnif, 1, GL_FALSE, viewMatrix);
+	cameraMatrixUnif = glGetUniformLocation(prog, "cameraMatrix");
+	glUniformMatrix4fv(viewMatrixUnif, 1, GL_FALSE, &viewMatrix[0]);
+	glUniformMatrix4fv(cameraMatrixUnif, 1, GL_FALSE, &cameraMatrix[0]);
 
 	glEnableVertexAttribArray(VERTEX_POS_INDEX);
 	glEnableVertexAttribArray(VERTEX_POS_INDEX+1);
@@ -120,12 +135,24 @@ static void draw()
 	glDisableVertexAttribArray(VERTEX_POS_INDEX+1);
 }
 
+void keyDown(unsigned int key)
+{
+
+}
+
+void keyUp(unsigned int key)
+{
+
+}
+
 void glInit2(GLsizei w, GLsizei h)
 {
 	width = (float)w;
 	height = (float)h;
 	glViewport(0, 0, w, h);
 	glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
+
+	initPerspetive();
 
 	buildShader(&prog,VSRC_0,FSRC_0);
 	uploadData();

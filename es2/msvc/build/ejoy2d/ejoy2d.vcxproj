@@ -11,10 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\examples\camera.cpp" />
     <ClCompile Include="..\..\..\examples\demo1.c" />
     <ClCompile Include="..\..\..\examples\demo2.c" />
+    <ClCompile Include="..\..\..\examples\EulerAngles.cpp" />
     <ClCompile Include="..\..\..\examples\fileio.cpp" />
     <ClCompile Include="..\..\..\examples\geomtool.c" />
+    <ClCompile Include="..\..\..\examples\MathUtil.cpp" />
+    <ClCompile Include="..\..\..\examples\Matrix4x3.cpp" />
+    <ClCompile Include="..\..\..\examples\Quaternion.cpp" />
+    <ClCompile Include="..\..\..\examples\RotationMatrix.cpp" />
     <ClCompile Include="..\..\..\examples\shadersrc.c" />
     <ClCompile Include="..\..\..\examples\Vector3.cpp" />
     <ClCompile Include="..\..\..\lib\dfont.c" />
@@ -40,10 +46,16 @@
     <ClCompile Include="..\..\src\ejoy2d\winmain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\examples\camera.h" />
     <ClInclude Include="..\..\..\examples\demo1.h" />
     <ClInclude Include="..\..\..\examples\demo2.h" />
+    <ClInclude Include="..\..\..\examples\EulerAngles.h" />
     <ClInclude Include="..\..\..\examples\fileio.h" />
     <ClInclude Include="..\..\..\examples\geomtool.h" />
+    <ClInclude Include="..\..\..\examples\MathUtil.h" />
+    <ClInclude Include="..\..\..\examples\Matrix4x3.h" />
+    <ClInclude Include="..\..\..\examples\Quaternion.h" />
+    <ClInclude Include="..\..\..\examples\RotationMatrix.h" />
     <ClInclude Include="..\..\..\examples\shadersrc.h" />
     <ClInclude Include="..\..\..\examples\submesh.h" />
     <ClInclude Include="..\..\..\examples\Vector3.h" />
