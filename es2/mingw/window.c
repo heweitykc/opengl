@@ -98,18 +98,21 @@ WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		int x,y;
 		get_xy(lParam, &x, &y); 
 		//ejoy2d_win_touch(x,y,TOUCH_END);
+		touchEnd(x,y);
 		break;
 	}
 	case WM_LBUTTONDOWN: {
 		int x,y;
 		get_xy(lParam, &x, &y); 
 		//ejoy2d_win_touch(x,y,TOUCH_BEGIN);
+		touchBegin(x,y);
 		break;
 	}
 	case WM_MOUSEMOVE: {
 		int x,y;
 		get_xy(lParam, &x, &y); 
 		//ejoy2d_win_touch(x,y,TOUCH_MOVE);
+		touchMove(x,y);
 		break;
 	}
 	}

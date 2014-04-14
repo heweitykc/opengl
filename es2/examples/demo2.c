@@ -40,7 +40,7 @@ static float projMatrix[16] = {
 static Camera camera(Camera::AIRCRAFT);
 
 static struct submesh *mesh0=NULL;
-/*
+
 static GLfloat vtxs[] = {
 	5,   5, 5,  1, 0, 1,
 	5,  5, -5,  0, 1, 0,
@@ -62,14 +62,7 @@ static GLubyte idxs[] = {
 	0,5,4,	0,3,5,
 	5,6,7,	4,5,7
 };
-*/
-static GLfloat vtxs[] = {
-		5.5f,5.5f,-0.0f,	  1.0f,0.0f,0.0f,
-		-5.5f,-5.5f,-0.0f,	  0.0f,1.0f,0.0f,
-		5.5f,-5.5f,-0.0f,     0.0f,0.0f,1.0f,
-		-5.5f,5.5f,-0.0f,     0.0f,0.0f,1.0f
-};
-static GLubyte idxs[] = {0, 1, 2, 0, 1, 3};
+
 
 static void fileTest()
 {
@@ -139,7 +132,7 @@ static void draw()
 	glEnableVertexAttribArray(VERTEX_POS_INDEX);
 	glEnableVertexAttribArray(VERTEX_POS_INDEX+1);
 
-	glDrawElements(GL_TRIANGLES, mesh0->ilen, GL_UNSIGNED_BYTE, 0);
+	glDrawElements(GL_TRIANGLE_STRIP, mesh0->ilen, GL_UNSIGNED_BYTE, 0);
 	glFlush();
 
 	glUseProgram(0);
@@ -147,12 +140,17 @@ static void draw()
 	glDisableVertexAttribArray(VERTEX_POS_INDEX+1);
 }
 
-void keyDown(unsigned int key)
+void touchBegin(int x,int y)
 {
 
 }
 
-void keyUp(unsigned int key)
+void touchMove(int x,int y)
+{
+
+}
+
+void touchEnd(int x,int y)
 {
 
 }
@@ -164,7 +162,6 @@ void glInit2(GLsizei w, GLsizei h)
 	glViewport(0, 0, w, h);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
 	glClearDepth(1.0f);
 	glDepthFunc(GL_LEQUAL);                 //深度测试方式
 	glShadeModel(GL_SMOOTH);
@@ -182,7 +179,7 @@ void glRender2()
 	current1 = TIME;
 	int diff = current1 - current0;
 	rotationX += 0.01f;
-	model4x3.setupRotate(3,rotationX);
+	model4x3.setupRotate(1,rotationX);
 	//model4x3.setupTranslation(Vector3(rotationX,0.0f,0.0f));
 	model4x3.getRawData(modelMatrix);
 
