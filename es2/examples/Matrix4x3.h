@@ -32,6 +32,8 @@ public:
 	void setupScaleAlongAxis(const Vector3 &axis, float k);
 	void setupShear(int axis, float s, float t);
 	void setupProject(const Vector3 &n);
+
+	void getRawData(float *m);
 };
 
 Vector3 operator*(const Vector3 &p, const Matrix4x3 &m);

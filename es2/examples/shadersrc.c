@@ -7,13 +7,13 @@ char VSRC_0[] =
 //		"precision highp float;"		//needed by es2
 		"attribute vec4 position; "
 		"attribute vec4 color; "
+		"uniform mat4 modelMatrix;"
 		"uniform mat4 viewMatrix;"
-		"uniform mat4 cameraMatrix;"
 		"uniform mat4 projMatrix;"
 		"varying vec4 fcolor; "
 		"void main()"
 		"{"
-			"gl_Position =  projMatrix * cameraMatrix * viewMatrix * position;"
+			"gl_Position =  projMatrix * viewMatrix * modelMatrix * position;"
 			"fcolor = color;"
 		"}";
 

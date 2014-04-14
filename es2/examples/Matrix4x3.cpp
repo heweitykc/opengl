@@ -207,6 +207,29 @@ void Matrix4x3::setupProject(const Vector3 &n)
 	tx = ty = tz = 0.0f;
 }
 
+void Matrix4x3::getRawData(float *m)
+{
+	m[0] = this->m11;
+	m[1] = this->m12;
+	m[2] = this->m13;
+	m[3] = 0.0f;
+
+	m[4] = this->m21;
+	m[5] = this->m22;
+	m[6] = this->m23;
+	m[7] = 0.0f;
+
+	m[8] = this->m31;
+	m[9] = this->m32;
+	m[10] = this->m33;
+	m[11] = 0.0f;
+
+	m[12] = this->tx;
+	m[13] = this->ty;
+	m[14] = this->tz;
+	m[15] = 1.0f;
+}
+
 Vector3 operator*(const Vector3 &p, const Matrix4x3 &m)
 {
 	return Vector3(
