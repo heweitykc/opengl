@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\..\examples\Quaternion.cpp" />
     <ClCompile Include="..\..\..\examples\RotationMatrix.cpp" />
     <ClCompile Include="..\..\..\examples\shadersrc.c" />
+    <ClCompile Include="..\..\..\examples\TouchController.cpp" />
     <ClCompile Include="..\..\..\examples\Vector3.cpp" />
     <ClCompile Include="..\..\..\lib\dfont.c" />
     <ClCompile Include="..\..\..\lib\ejoy2dgame.c" />
@@ -58,6 +59,7 @@
     <ClInclude Include="..\..\..\examples\RotationMatrix.h" />
     <ClInclude Include="..\..\..\examples\shadersrc.h" />
     <ClInclude Include="..\..\..\examples\submesh.h" />
+    <ClInclude Include="..\..\..\examples\TouchController.h" />
     <ClInclude Include="..\..\..\examples\Vector3.h" />
     <ClInclude Include="..\..\..\lib\array.h" />
     <ClInclude Include="..\..\..\lib\dfont.h" />

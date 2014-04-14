@@ -122,6 +122,9 @@
     <ClCompile Include="..\..\..\examples\Matrix4x3.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\examples\TouchController.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\stdbool.h">
@@ -233,6 +236,9 @@
       <Filter>game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\examples\Matrix4x3.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\examples\TouchController.h">
       <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
