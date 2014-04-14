@@ -4,7 +4,7 @@ Camera::Camera(CameraType cameraType)
 {
 	_cameraType = cameraType;
 	_pos.x = _pos.y = 0;
-	_pos.z = 0.0f;
+	_pos.z = -50.0f;
 
 	_right.y = _right.z = 0;
 	_right.x = 1;
@@ -115,35 +115,37 @@ void Camera::walk(float units)
 }
 
 void Camera::perspectiveFieldOfView(
-	float filedOfView,float aspectRation,float zNear,float zFar)
+	float filedOfView,float aspectRation,float zNear,float zFar,float *m)
 {
 	float yScale = 1.0/tan(filedOfView/2.0);
 	float xScale = yScale / aspectRation;
 
-	_projMatrix.identity();
-	_projMatrix.zeroTranslation();
-
-	_projMatrix.m11 = xScale;
-	_projMatrix.m12 = 0.0f;
-	_projMatrix.m13 = 0.0f;
+	m[0] = xScale;
+	m[1] = 0.0f;
+	m[2] = 0.0f;
+	m[3] = 0.0f;
 	
-	_projMatrix.m21 = 0.0f;
-	_projMatrix.m22 = yScale;
-	_projMatrix.m23 = 0.0f;
+	m[4] = 0.0f;
+	m[5] = yScale;
+	m[6] = 0.0f;
+	m[7] = 0.0f;
 
-	_projMatrix.m31 = 0.0f;
-	_projMatrix.m32 = 0.0f;
-	_projMatrix.m33 = zFar/(zFar-zNear);
+	m[8] = 0.0f;
+	m[9] = 0.0f;
+	m[10] = zFar/(zFar-zNear);
+	m[11] = 1.0f;
 
-	_projMatrix.tx = 0.0f;
-	_projMatrix.ty = 0.0f;
-	_projMatrix.tz = (zNear*zFar)/(zNear-zFar);
+	m[12] = 0.0f;
+	m[13] = 0.0f;
+	m[14] = (zNear*zFar)/(zNear-zFar);
+	m[15] = 0.0f;
 }
 
 void Camera::getMatrix(float *m)
 {
 	this->viewMatrix();
-	Matrix4x3 v = _viewMatrix * _projMatrix;
+
+	Matrix4x3 v = _viewMatrix;
 	m[0] = v.m11;
 	m[1] = v.m12;
 	m[2] = v.m13;
@@ -162,7 +164,7 @@ void Camera::getMatrix(float *m)
 	m[12] = v.tx;
 	m[13] = v.ty;
 	m[14] = v.tz;
-	m[15] = 80.0f;
+	m[15] = 1.0f;
 }
 
 Camera::~Camera()

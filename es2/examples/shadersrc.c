@@ -9,10 +9,11 @@ char VSRC_0[] =
 		"attribute vec4 color; "
 		"uniform mat4 viewMatrix;"
 		"uniform mat4 cameraMatrix;"
+		"uniform mat4 projMatrix;"
 		"varying vec4 fcolor; "
 		"void main()"
 		"{"
-			"gl_Position =  position * viewMatrix * cameraMatrix;"
+			"gl_Position =  projMatrix * cameraMatrix * viewMatrix * position;"
 			"fcolor = color;"
 		"}";
 

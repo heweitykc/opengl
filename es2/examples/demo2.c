@@ -33,6 +33,8 @@ static float cameraMatrix[16] = {
 	0.0f,0.0f,1.0f,0.0f,
 	0.0f,0.0f,0.0f,1.0f
 };
+static float projMatrix[16] = {
+};
 
 static Camera camera(Camera::AIRCRAFT);
 
@@ -71,7 +73,7 @@ static void initPerspetive()
 	float zNear = 0.1f;
 	float zFar = 1000;
 	float fov = 45* kPi/180;
-	camera.perspectiveFieldOfView(fov,aspect,zNear,zFar);
+	camera.perspectiveFieldOfView(fov,aspect,zNear,zFar, projMatrix);
 }
 
 static void initData()
@@ -106,7 +108,7 @@ static void uploadData()
 
 static void draw()
 {
-	GLint viewMatrixUnif, cameraMatrixUnif;
+	GLint viewMatrixUnif, cameraMatrixUnif, projMatrixUnif;
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -136,8 +138,10 @@ static void draw()
 
 	viewMatrixUnif = glGetUniformLocation(prog, "viewMatrix");
 	cameraMatrixUnif = glGetUniformLocation(prog, "cameraMatrix");
+	projMatrixUnif = glGetUniformLocation(prog, "projMatrix");
 	glUniformMatrix4fv(viewMatrixUnif, 1, GL_FALSE, &viewMatrix[0]);
 	glUniformMatrix4fv(cameraMatrixUnif, 1, GL_FALSE, &cameraMatrix[0]);
+	glUniformMatrix4fv(projMatrixUnif, 1, GL_FALSE, &projMatrix[0]);
 
 	glEnableVertexAttribArray(VERTEX_POS_INDEX);
 	glEnableVertexAttribArray(VERTEX_POS_INDEX+1);

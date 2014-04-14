@@ -31,7 +31,8 @@ public:
 		float filedOfView,
 		float aspectRation,
 		float zNear,
-		float zFar
+		float zFar,
+		float *m
 	);
 
 	void getMatrix(float *m);
@@ -44,7 +45,6 @@ private:
 	Vector3 _pos;
 
 	Matrix4x3 _viewMatrix;
-	Matrix4x3 _projMatrix;
 };
 
 #endif
