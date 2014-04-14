@@ -27,10 +27,13 @@ static float height;
 static float rotationX = 0.0f;
 
 static Matrix4x3 model4x3;
+static Matrix4x3 model4x3_1;
+
 static float modelMatrix[16];
+static float modelMatrix_1[16];
+
 static float viewMatrix[16];
 static float projMatrix[16];
-
 static Camera camera(Camera::AIRCRAFT);
 
 static struct submesh *mesh0=NULL;
@@ -105,7 +108,7 @@ static void uploadData()
 
 static void draw()
 {
-	GLint modelMatrixUnif, viewMatrixUnif, projMatrixUnif;
+	GLint modelMatrixUnif, modelMatrixUnif1, viewMatrixUnif, projMatrixUnif;
 
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	
@@ -114,9 +117,11 @@ static void draw()
 	glBindAttribLocation(prog, VERTEX_POS_INDEX, "position");
 	glBindAttribLocation(prog, VERTEX_POS_INDEX+1, "color");
 
+	modelMatrixUnif1 = glGetUniformLocation(prog, "modelMatrix1");
 	modelMatrixUnif = glGetUniformLocation(prog, "modelMatrix");
 	viewMatrixUnif = glGetUniformLocation(prog, "viewMatrix");
 	projMatrixUnif = glGetUniformLocation(prog, "projMatrix");
+	glUniformMatrix4fv(modelMatrixUnif1, 1, GL_FALSE, &modelMatrix_1[0]);
 	glUniformMatrix4fv(modelMatrixUnif, 1, GL_FALSE, &modelMatrix[0]);
 	glUniformMatrix4fv(viewMatrixUnif, 1, GL_FALSE, &viewMatrix[0]);
 	glUniformMatrix4fv(projMatrixUnif, 1, GL_FALSE, &projMatrix[0]);
@@ -154,7 +159,7 @@ void glInit2(GLsizei w, GLsizei h)
 	glViewport(0, 0, w, h);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	glClearDepth(1.0f);
+	glClearDepthf(1.0f);
 	glDepthFunc(GL_LEQUAL);                 //深度测试方式	
 
 	initPerspetive();
@@ -170,9 +175,11 @@ void glRender2()
 	current1 = TIME;
 	int diff = current1 - current0;
 	rotationX += 0.01f;
-	model4x3.setupRotate(1,rotationX);	
+	model4x3.setupRotate(1,rotationX);
+	model4x3_1.setupRotate(3,rotationX);
 
 	model4x3.getRawData(modelMatrix);
+	model4x3_1.getRawData(modelMatrix_1);
 	camera.getMatrix(viewMatrix);
 
 	//LOG("frame time=%d\n", diff);
