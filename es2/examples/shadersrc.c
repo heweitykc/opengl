@@ -12,7 +12,7 @@ char VSRC_0[] =
 		"varying vec4 fcolor; "
 		"void main()"
 		"{"
-		"gl_Position =  cameraMatrix * viewMatrix * position;"
+			"gl_Position =  position * viewMatrix * cameraMatrix;"
 			"fcolor = color;"
 		"}";
 

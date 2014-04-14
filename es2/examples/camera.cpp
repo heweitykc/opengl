@@ -4,7 +4,7 @@ Camera::Camera(CameraType cameraType)
 {
 	_cameraType = cameraType;
 	_pos.x = _pos.y = 0;
-	_pos.z = -0.0f;
+	_pos.z = 0.0f;
 
 	_right.y = _right.z = 0;
 	_right.x = 1;
@@ -162,7 +162,7 @@ void Camera::getMatrix(float *m)
 	m[12] = v.tx;
 	m[13] = v.ty;
 	m[14] = v.tz;
-	m[15] = 20.0f;
+	m[15] = 80.0f;
 }
 
 Camera::~Camera()

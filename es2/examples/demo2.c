@@ -38,12 +38,26 @@ static Camera camera(Camera::AIRCRAFT);
 
 static struct submesh *mesh0=NULL;
 static GLfloat vtxs[] = {
-		-0.5f,0.5f,0.0f,   1.0f,0.0f,0.0f,
-		-0.5f,-0.5f,0.0f,  0.0f,1.0f,0.0f,
-		0.5f,-0.5f,0.0f,   0.0f,0.0f,1.0f,
-		0.5f,0.5f,0.0f,    1.0f,1.0f,1.0f
+	5,   5, 5,  1, 0, 0,
+	5,  5, -5,  0, 1, 0,
+	-5, 5, -5,  0, 0, 1,
+
+	-5, 5, 5,  1, 0, 0,
+	5,  -5, 5,  0, 1, 0,
+	-5, -5, 5,   0, 0, 1,
+
+	-5, -5, -5,  1, 0, 1,
+	5,  -5, -5,   0, 0, 1
 };
-static GLubyte idxs[] = {0, 1, 2, 0, 2, 3};
+
+static GLubyte idxs[] = {
+	0,1,2,	0,2,3,
+	0,7,1,	0,4,7,
+	1,7,6,	1,6,2,
+	2,6,5,	2,3,5,
+	0,5,4,	0,3,5,
+	5,6,7,	4,5,7
+};
 
 static void fileTest()
 {
@@ -63,11 +77,11 @@ static void initPerspetive()
 static void initData()
 {
 	mesh0 = (struct submesh*)malloc(sizeof(*mesh0));
-	mesh0->vlen = 24;
+	mesh0->vlen = 48;
 	mesh0->vsize = 6;
 	mesh0->vtxs = vtxs;
 
-	mesh0->ilen = 6;
+	mesh0->ilen = 36;
 	mesh0->idxs = idxs;
 }
 
@@ -92,10 +106,11 @@ static void uploadData()
 
 static void draw()
 {
-	GLint perspectiveMatrixUnif, viewMatrixUnif, cameraMatrixUnif;
+	GLint viewMatrixUnif, cameraMatrixUnif;
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	glEnable(GL_BLEND);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	
 	glUseProgram(prog);
 
 	memset(viewMatrix, 0, sizeof(float)*16);
@@ -119,7 +134,6 @@ static void draw()
 	glBindAttribLocation(prog, VERTEX_POS_INDEX, "position");
 	glBindAttribLocation(prog, VERTEX_POS_INDEX+1, "color");
 
-	perspectiveMatrixUnif = glGetUniformLocation(prog, "perspectiveMatrix");
 	viewMatrixUnif = glGetUniformLocation(prog, "viewMatrix");
 	cameraMatrixUnif = glGetUniformLocation(prog, "cameraMatrix");
 	glUniformMatrix4fv(viewMatrixUnif, 1, GL_FALSE, &viewMatrix[0]);
@@ -128,7 +142,7 @@ static void draw()
 	glEnableVertexAttribArray(VERTEX_POS_INDEX);
 	glEnableVertexAttribArray(VERTEX_POS_INDEX+1);
 
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, 0);
 
 	glUseProgram(0);
 	glDisableVertexAttribArray(VERTEX_POS_INDEX);
@@ -150,7 +164,12 @@ void glInit2(GLsizei w, GLsizei h)
 	width = (float)w;
 	height = (float)h;
 	glViewport(0, 0, w, h);
-	glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glClearDepth(1.0f);
+	glDepthFunc(GL_LEQUAL);                 //深度测试方式
+	glShadeModel(GL_SMOOTH);
 
 	initPerspetive();
 
@@ -165,6 +184,7 @@ void glRender2()
 	current1 = TIME;
 	int diff = current1 - current0;
 	rotationX += 0.01f;
+
 	//LOG("frame time=%d\n", diff);
 	current0 = current1;
 	draw();
