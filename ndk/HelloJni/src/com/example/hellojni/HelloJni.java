@@ -21,7 +21,6 @@ import javax.microedition.khronos.opengles.GL10;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
 
 
 public class HelloJni extends Activity
@@ -63,7 +62,6 @@ public class HelloJni extends Activity
         }
     }
     
-    private static native String stringFromJNI();
     static {
         System.loadLibrary("hello-jni");
     }
