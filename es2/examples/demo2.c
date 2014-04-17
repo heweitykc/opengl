@@ -13,7 +13,7 @@
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 #define VERTEX_POS_INDEX 0
-#define VERTEX_POS_SIZE 6
+#define VERTEX_POS_SIZE 7
 
 static GLuint prog;
 static Loader loader;
@@ -21,8 +21,8 @@ static Loader loader;
 static DWORD current0;
 static DWORD current1;
 
-static float width;
-static float height;
+static int width;
+static int height;
 
 static float rotationX = 0.0f;
 
@@ -39,25 +39,25 @@ static Camera camera(Camera::AIRCRAFT);
 static struct submesh *mesh0=NULL;
 
 static GLfloat vtxs[] = {
-	5,   5, 5,  1, 0, 1,
-	5,  5, -5,  0, 1, 0,
-	-5, 5, -5,  1, 0, 1,
+	5,  5, 5,		1, 1, 0, 0.5,
+	5,  -5, 5,		1, 1, 0, 0.5,
+	5, -5, -5,		0, 0, 1, 0.5,
 
-	-5, 5, 5,  1, 0, 0,
-	5,  -5, 5,  0, 1, 0,
-	-5, -5, 5,   1, 0, 1,
+	5, 5, -5,		1, 1, 0, 1,
+	-5,  5, -5,		1, 1, 0, 1,
+	-5, 5, 5,		0, 0, 1, 1,
 
-	-5, -5, -5,  1, 0, 1,
-	5,  -5, -5,   0, 0, 1
+	-5, -5, 5,		0, 1, 1, 1,
+	-5,  -5, -5,	1, 0, 1, 1
 };
 
 static GLubyte idxs[] = {
 	0,1,2,	0,2,3,
-	0,7,1,	0,4,7,
-	1,7,6,	1,6,2,
-	2,6,5,	2,3,5,
-	0,5,4,	0,3,5,
-	5,6,7,	4,5,7
+	2,3,7,	3,7,4,
+	4,7,6,	4,6,5,
+	5,6,0,	6,0,1,
+	4,3,0,	4,0,5,
+	7,2,1,	7,1,6
 };
 
 
@@ -80,7 +80,7 @@ static void initData()
 {
 	mesh0 = (struct submesh*)malloc(sizeof(*mesh0));
 	mesh0->vlen = sizeof(vtxs);
-	mesh0->vsize = sizeof(GLfloat)*6;
+	mesh0->vsize = sizeof(GLfloat)*VERTEX_POS_SIZE;
 	mesh0->vtxs = vtxs;
 
 	mesh0->ilen = sizeof(idxs);
@@ -103,7 +103,7 @@ static void uploadData()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh0->ilen, mesh0->idxs, GL_STATIC_DRAW);
 	
 	glVertexAttribPointer(VERTEX_POS_INDEX, 3,   GL_FLOAT, GL_FALSE, mesh0->vsize, BUFFER_OFFSET(0));
-	glVertexAttribPointer(VERTEX_POS_INDEX+1, 3, GL_FLOAT, GL_FALSE, mesh0->vsize, BUFFER_OFFSET(12));
+	glVertexAttribPointer(VERTEX_POS_INDEX+1, 4, GL_FLOAT, GL_FALSE, mesh0->vsize, BUFFER_OFFSET(12));
 }
 
 static void draw()
@@ -154,12 +154,16 @@ void touchEnd(int x,int y)
 
 void glInit2(GLsizei w, GLsizei h)
 {
-	width = (float)w;
-	height = (float)h;
+	width = w;
+	height = h;
 	glViewport(0, 0, w, h);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glEnable(GL_DEPTH_TEST);
+	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE,GL_ONE);
+
 	glClearDepthf(1.0f);
+	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);                 //深度测试方式	
 
 	initPerspetive();
@@ -167,7 +171,7 @@ void glInit2(GLsizei w, GLsizei h)
 	buildShader(&prog,VSRC_0,FSRC_0);
 	uploadData();
 
-	fileTest();
+	//fileTest();
 }
 
 void glRender2()
@@ -181,6 +185,7 @@ void glRender2()
 	model4x3.getRawData(modelMatrix);
 	model4x3_1.getRawData(modelMatrix_1);
 	camera.getMatrix(viewMatrix);
+	//camera.walk(-0.1f);
 
 	//LOG("frame time=%d\n", diff);
 	current0 = current1;

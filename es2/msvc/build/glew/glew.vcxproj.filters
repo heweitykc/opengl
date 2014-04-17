@@ -12,6 +12,12 @@
     <Filter Include="inc\GL">
       <UniqueIdentifier>{55d0d2cd-11ff-4266-8730-f5bff95888c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="inc\GLES2">
+      <UniqueIdentifier>{d32c4832-2bb4-411d-9055-93eefca97a0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc\KHR">
+      <UniqueIdentifier>{cfa585be-ae5c-40a5-81aa-e7a2dbc96682}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\glew\GL\glew.h">
@@ -19,6 +25,18 @@
     </ClInclude>
     <ClInclude Include="..\..\src\glew\GL\wglew.h">
       <Filter>inc\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glew\GLES2\gl2.h">
+      <Filter>inc\GLES2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glew\GLES2\gl2ext.h">
+      <Filter>inc\GLES2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glew\GLES2\gl2platform.h">
+      <Filter>inc\GLES2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glew\KHR\khrplatform.h">
+      <Filter>inc\KHR</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

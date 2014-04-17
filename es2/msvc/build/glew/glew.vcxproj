@@ -78,8 +78,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\glew\GLES2\gl2.h" />
+    <ClInclude Include="..\..\src\glew\GLES2\gl2ext.h" />
+    <ClInclude Include="..\..\src\glew\GLES2\gl2platform.h" />
     <ClInclude Include="..\..\src\glew\GL\glew.h" />
     <ClInclude Include="..\..\src\glew\GL\wglew.h" />
+    <ClInclude Include="..\..\src\glew\KHR\khrplatform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\glew\glew.c" />
