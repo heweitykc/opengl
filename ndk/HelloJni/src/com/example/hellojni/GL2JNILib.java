@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Android Open Source Project
+ * Copyright (C) 2007 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,29 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.hellojni;
 
-import android.app.Activity;
-import android.os.Bundle;
+// Wrapper for native library
 
+public class GL2JNILib {
 
-public class HelloJni extends Activity
-{
-    GL2JNIView mView;
+     static {
+         System.loadLibrary("hello-jni");
+     }
 
-    @Override protected void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-        mView = new GL2JNIView(getApplication());
-	setContentView(mView);
-    }
-
-    @Override protected void onPause() {
-        super.onPause();
-        mView.onPause();
-    }
-
-    @Override protected void onResume() {
-        super.onResume();
-        mView.onResume();
-    }
+    /**
+     * @param width the current view width
+     * @param height the current view height
+     */
+     public static native void init(int width, int height);
+     public static native void step();
 }

@@ -17,8 +17,8 @@
 
 static GLuint prog;
 
-static float width;
-static float height;
+static int width;
+static int height;
 
 static float rotationX = 0.0f;
 
@@ -74,8 +74,6 @@ static void initData()
 
 	mesh0->ilen = sizeof(idxs);
 	mesh0->idxs = idxs;
-
-	LOG("good!!%s","123");
 }
 
 static void uploadData()
@@ -92,7 +90,7 @@ static void uploadData()
 	glGenBuffers(1, &ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh0->ilen, mesh0->idxs, GL_STATIC_DRAW);
-	
+
 	glVertexAttribPointer(VERTEX_POS_INDEX, 3,   GL_FLOAT, GL_FALSE, mesh0->vsize, BUFFER_OFFSET(0));
 	glVertexAttribPointer(VERTEX_POS_INDEX+1, 3, GL_FLOAT, GL_FALSE, mesh0->vsize, BUFFER_OFFSET(12));
 }
@@ -145,19 +143,27 @@ void touchEnd(int x,int y)
 
 void glInit2(GLsizei w, GLsizei h)
 {
-	width = (float)w;
-	height = (float)h;
+	width = w;
+	height = h;
 	glViewport(0, 0, w, h);
+	/*
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST|GL_BLEND);
 	glClearDepthf(1.0f);
-	glDepthFunc(GL_LEQUAL);                 //深度测试方式	
+	glDepthFunc(GL_LEQUAL);                 //深度测试方式*/
 
 	initPerspetive();
 
 	buildShader(&prog,VSRC_0,FSRC_0);
 	uploadData();
+
+	LOG("Version=%d", GL_VERSION);
+    LOG("Vendor=%d", GL_VENDOR);
+    LOG("Renderer=%d", GL_RENDERER);
+    LOG("Extensions=%d", GL_EXTENSIONS);
+	LOG("init ok! w=%d, h=%d", width, height);
 }
+
 
 void glRender2()
 {

@@ -3,22 +3,17 @@
 
 extern "C" {
 
-	void
-	Java_com_example_hellojni_DemoRenderer_nativeInit(JNIEnv*  env,jobject thiz)
-	{
-		glInit2(800,1100);
-	}
+	JNIEXPORT void JNICALL Java_com_example_hellojni_GL2JNILib_init(JNIEnv * env, jobject obj,  jint width, jint height);
+	JNIEXPORT void JNICALL Java_com_example_hellojni_GL2JNILib_step(JNIEnv * env, jobject obj);
 
-	void
-	Java_com_example_hellojni_DemoRenderer_nativeDone(JNIEnv*  env,jobject thiz)
-	{
+}
 
-	}
+JNIEXPORT void JNICALL Java_com_example_hellojni_GL2JNILib_init(JNIEnv * env, jobject obj,  jint width, jint height)
+{
+	glInit2(width,height);
+}
 
-	void
-	Java_com_example_hellojni_DemoRenderer_nativeRender(JNIEnv*  env,jobject thiz)
-	{
-		glRender2();
-	}
-
+JNIEXPORT void JNICALL Java_com_example_hellojni_GL2JNILib_step(JNIEnv * env, jobject obj)
+{
+	glRender2();
 }

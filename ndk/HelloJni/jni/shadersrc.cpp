@@ -1,10 +1,10 @@
 #include "shadersrc.h"
 #include <stdio.h>
+#include <string.h>
 
 static char buf[1024];
 
 char VSRC_0[] =
-		"precision highp float;"		//needed by es2
 		"attribute vec4 position; "
 		"attribute vec4 color; "
 		"uniform mat4 modelMatrix;"
@@ -19,7 +19,7 @@ char VSRC_0[] =
 		"}";
 
 char FSRC_0[] =
-		"precision highp float;"		//needed by es2
+		"precision mediump float;"		//needed by es2
 		"varying vec4 fcolor;"
 		"void main()"
 		"{"
@@ -31,6 +31,7 @@ static GLuint compile(const char * source, int type) {
 	GLuint shader = glCreateShader(type);
 	glShaderSource(shader, 1, &source, NULL);
 	glCompileShader(shader);
+	memset(buf,0,1024);
 	glGetShaderInfoLog(shader, 1024, &len, buf);
 	LOG("complile=%s", buf);
 	return shader;
@@ -54,6 +55,7 @@ void buildShader(GLuint *prog,char *vscr, char *fsrc)
 	glDetachShader(*prog, vs);
 	glDeleteShader(vs);
 
+	memset(buf,0,1024);
 	glGetProgramiv(*prog, GL_LINK_STATUS, &status);
 	glGetProgramInfoLog(*prog, 1024, NULL, buf);
 	LOG("link=%s", buf);
